@@ -18,8 +18,13 @@
 //Examples: SHUFFLE3(v, 0,1,2) leaves the vector unchanged.
 //          SHUFFLE3(v, 0,0,0) replicates the X coordinate throughout the vector.
 
+//forward declarations
+struct float2;
+struct float3;
+struct float4;
+
 // Comparison operators need to return a SIMD bool.
-typedef float3 bool2; 
+typedef float2 bool2; 
 typedef float3 bool3; 
 typedef float4 bool4; 
 
@@ -263,7 +268,7 @@ struct float4
 
 };
 
-VM_INLINE float4 float4i(int x, int y, int z) { return float3((float)x, (float)y, (float)z, (float)w);}
+VM_INLINE float4 float4i(int x, int y, int z, int w) { return float4((float)x, (float)y, (float)z, (float)w);}
 
 //float4 operators:
 VM_INLINE float4  operator+ (float4 a, float4 b) {a.m = _mm_add_ps(a.m, b.m); return a;} 

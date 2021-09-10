@@ -2,12 +2,6 @@
 
 #include "vectors.h"
 
-/*
-TODO:
--mat3
--AVX, AVX2 Support
-*/
-
 struct mat4
 {
 	float4 row[4];
@@ -40,10 +34,32 @@ struct mat4
 	}
 
 	//multidimensional array access operators: mat4(row, column)
-	VM_INLINE float  operator() (size_t r, size_t c = 0) const {return row[r].x();};
-	VM_INLINE float  operator() (size_t r, size_t c = 1) const {return row[r].y();};
-	VM_INLINE float  operator() (size_t r, size_t c = 2) const {return row[r].z();};
-	VM_INLINE float  operator() (size_t r, size_t c = 3) const {return row[r].w();};
+	VM_INLINE float  operator() (size_t r, size_t c) const 
+	{
+		switch((int)c)
+		{
+			case 0:
+			{
+				return row[r].x();
+				break;
+			}
+			case 1:
+			{
+				return row[r].y();
+				break;
+			}
+			case 2:
+			{
+				return row[r].z();
+				break;
+			}
+			case 3:
+			{
+				return row[r].w();
+				break;
+			}
+		}
+	}
 
 	VM_INLINE float&  operator() (size_t r, size_t c) {return row[r][c];};
 };
@@ -93,3 +109,7 @@ VM_INLINE mat4 operator* (mat4 a, mat4 b)
 	return a;
 }
 	
+VM_INLINE void transpose(mat4 &a)
+{
+	_MM_TRANSPOSE4_PS(a.row[0].m, a.row[1].m, a.row[2].m, a.row[3].m);
+}
